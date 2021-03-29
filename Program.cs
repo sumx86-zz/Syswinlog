@@ -5,8 +5,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Timers;
-using System.Net;
-using System.Net.Mail;
 using System.Windows.Forms;
 using System.IO;
 using ConsoleApp2.NativeMethods;
