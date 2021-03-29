@@ -49,6 +49,7 @@ namespace ConsoleApp2.Startup
                 }
                 catch (Exception ex)
                 {
+                    // StatusLog.Log("Error adding to registry!");
                 }
                 return;
             }
