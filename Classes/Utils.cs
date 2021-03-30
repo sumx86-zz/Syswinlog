@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Net;
 using Syswinlog.Classes.NativeMethods;
 using System.Text.RegularExpressions;
+using System.Diagnostics;
 
 class Utils
 {
@@ -25,6 +26,16 @@ class Utils
             }
         }
         return false;
+    }
+
+    public static bool IsInstanceRunning()
+    {
+        Process[] procList = Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName);
+        if( procList.Length > 1 ) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static string GetIP()
