@@ -38,6 +38,14 @@ class Utils
         }
     }
 
+    public static string GetStartupDirectory() {
+        return Environment.GetFolderPath(Environment.SpecialFolder.Startup);
+    }
+
+    public static string GetAppDataFolder() {
+        return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+    }
+
     public static string GetIP()
     {
         string data = String.Empty;
