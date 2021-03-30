@@ -1,5 +1,5 @@
 
-namespace ConsoleApp2.Constants
+namespace Syswinlog.Classes.Constants
 {
     class Constants
     {
