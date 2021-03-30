@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using Syswinlog.Classes.StatusLog;
 
 namespace Syswinlog.Classes.Startup
 {
@@ -49,7 +50,7 @@ namespace Syswinlog.Classes.Startup
                 }
                 catch (Exception ex)
                 {
-                    // StatusLog.Log("Error adding to registry!");
+                    StatusLog.StatusLog.Log("Error adding to registry!");
                 }
                 return;
             }
