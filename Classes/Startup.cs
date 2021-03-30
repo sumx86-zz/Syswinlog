@@ -16,20 +16,12 @@ namespace Syswinlog.Classes.Startup
         // startup folder
         private static string _startup = String.Empty;
 
-        public static string GetStartupDirectory() {
-            return Environment.GetFolderPath(Environment.SpecialFolder.Startup);
-        }
-
-        public static string GetAppDataFolder() {
-            return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        }
-
         public static void Init()
         {
             _exePath = Application.ExecutablePath;
-            _startup = GetStartupDirectory();
+            _startup = Utils.GetStartupDirectory();
 
-            string syswin = GetAppDataFolder() + logDir;
+            string syswin = Utils.GetAppDataFolder() + logDir;
             if (!Directory.Exists(syswin)) {
                 Directory.CreateDirectory(syswin);
             }
