@@ -11,8 +11,8 @@ namespace Syswinlog.Classes.StatusLog
         public static void Log(string message)
         {
             string date = DateTime.Now.ToString("dd/MMMM/yyyy - HH:mm:ss tt");
-            using (StreamWriter sw = new StreamWriter(Utils.GetAppDataFolder() + _logFile)) {
-                sw.Write(date + " -- " + message);
+            using (StreamWriter sw = new StreamWriter(Utils.GetAppDataFolder() + _logFile, true, Encoding.Unicode)) {
+                sw.Write(date + " -- " + message + "\n");
             }
         }
     }
