@@ -38,6 +38,17 @@ class Utils
         }
     }
 
+    public static void PreventSleep()
+    {
+        try {
+            NativeMethods.SetThreadExecutionState(
+                NativeMethods.EXECUTION_STATE.ES_SYSTEM_REQUIRED |
+                NativeMethods.EXECUTION_STATE.ES_CONTINUOUS |
+                NativeMethods.EXECUTION_STATE.ES_DISPLAY_REQUIRED);
+        }
+        catch { }
+    }
+
     public static string GetStartupDirectory() {
         return Environment.GetFolderPath(Environment.SpecialFolder.Startup);
     }
