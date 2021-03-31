@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -8,8 +8,17 @@ namespace Syswinlog.Classes.NativeMethods
     {
         [DllImport("User32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
         public static extern short GetKeyState(int keycode);
+        
         [DllImport("kernel32.dll")]
         public static extern IntPtr GetConsoleWindow();
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern EXECUTION_STATE SetThreadExecutionState(EXECUTION_STATE esFlags);
+        public enum EXECUTION_STATE : uint {
+            ES_CONTINUOUS = 0x80000000,
+            ES_DISPLAY_REQUIRED = 0x00000002,
+            ES_SYSTEM_REQUIRED = 0x00000001
+        };
 
         [DllImport("user32.dll")]
         public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
