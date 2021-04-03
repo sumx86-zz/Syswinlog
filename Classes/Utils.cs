@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Net;
 using Syswinlog.Classes.NativeMethods;
 using System.Text.RegularExpressions;
@@ -47,6 +48,18 @@ class Utils
                 NativeMethods.EXECUTION_STATE.ES_DISPLAY_REQUIRED);
         }
         catch { }
+    }
+
+    public static StringBuilder GetActiveWindowTitle()
+    {
+        const int nChars = 255;
+        StringBuilder sb = new StringBuilder(nChars);
+        if (NativeMethods.GetWindowText(NativeMethods.GetForegroundWindow(), sb, nChars) > 0) {
+            return sb;
+        } else {
+            sb.Append("???");
+            return sb;
+        }
     }
 
     public static string GetStartupDirectory() {
