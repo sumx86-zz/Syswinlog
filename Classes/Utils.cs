@@ -7,13 +7,6 @@ using System.Diagnostics;
 
 class Utils
 {
-    private static string[] hosts = new string[] {
-        "https://api.ipify.org?format=json",
-        "https://api.myip.com/"
-    };
-    // ip pattern
-    private static Regex pattern = new Regex(@"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b");
-
     public static bool DetectSandboxie()
     {
         string[] sandboxList = new string[] {
@@ -68,27 +61,5 @@ class Utils
 
     public static string GetAppDataFolder() {
         return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-    }
-
-    public static string GetIP()
-    {
-        string data = String.Empty;
-
-        foreach ( var host in hosts ) {
-            using (var wc = new WebClient()) {
-                try {
-                    data = wc.DownloadString( host );
-                }
-                catch (WebException) {
-                    
-                }
-
-                if( data != String.Empty ) {
-                    MatchCollection result = pattern.Matches(data);
-                    return result[0].ToString();
-                }
-            }
-        }
-        return "";
     }
 }
