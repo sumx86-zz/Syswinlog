@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 using System.IO;
 using System.Security.Cryptography;
@@ -18,12 +18,6 @@ namespace Syswinlog.Classes.HostInfo
             _info.Append("ServicePack: "     + os.ServicePack              + "\n");
             _info.Append("User Name: "       + Environment.UserName        + "\n");
             _info.Append("SystemDirectory: " + Environment.SystemDirectory + "\n");
-
-            string ip = Utils.GetIP();
-            if( ip == "" ) {
-                ip = "NO-IP";
-            }
-            _info.Append( "Ip Address: " + ip + "\n" );
             _HWid = ComputeHWid();
         }
 
