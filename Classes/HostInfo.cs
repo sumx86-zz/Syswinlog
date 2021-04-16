@@ -47,7 +47,8 @@ namespace Syswinlog.Classes.HostInfo
             NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
             foreach( var _interface in interfaces ) {
                 if( _interface.OperationalStatus == OperationalStatus.Up ) {
-                    return string.Join(":", Enumerable.Range(0, 6).Select(i => _interface.GetPhysicalAddress().ToString().Substring(i * 2, 2)));
+                    string hwaddress = _interface.GetPhysicalAddress().ToString();
+                    return string.Join(":", Enumerable.Range(0, 6).Select(i => hwaddress.Substring(i * 2, 2)));
                 }
             }
             return string.Empty;
