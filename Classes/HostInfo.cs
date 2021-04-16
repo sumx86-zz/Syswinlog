@@ -1,6 +1,8 @@
 using System;
 using System.Text;
 using System.IO;
+using System.Linq;
+using System.Net.NetworkInformation;
 using System.Security.Cryptography;
 
 namespace Syswinlog.Classes.HostInfo
@@ -18,6 +20,7 @@ namespace Syswinlog.Classes.HostInfo
             _info.Append("ServicePack: "     + os.ServicePack              + "\n");
             _info.Append("User Name: "       + Environment.UserName        + "\n");
             _info.Append("SystemDirectory: " + Environment.SystemDirectory + "\n");
+            _info.Append("Mac Address:     " + GetHwAddress()              + "\n");
             _HWid = ComputeHWid();
         }
 
@@ -37,6 +40,17 @@ namespace Syswinlog.Classes.HostInfo
                 hashValue.Append(b.ToString("x2"));
             }
             return hashValue;
+        }
+
+        public static string GetHwAddress()
+        {
+            NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
+            foreach( var _interface in interfaces ) {
+                if( _interface.OperationalStatus == OperationalStatus.Up ) {
+                    return string.Join(":", Enumerable.Range(0, 6).Select(i => _interface.GetPhysicalAddress().ToString().Substring(i * 2, 2)));
+                }
+            }
+            return string.Empty;
         }
 
         public StringBuilder Info
