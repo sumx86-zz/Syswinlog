@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Security.Cryptography;
 
@@ -15,11 +16,12 @@ namespace Syswinlog.Classes.HostInfo
         public HostInfo()
         {
             var os = Environment.OSVersion;
-            _info.Append("Platform: "        + os.Platform                 + "\n");
-            _info.Append("Version String: "  + os.VersionString            + "\n");
-            _info.Append("ServicePack: "     + os.ServicePack              + "\n");
-            _info.Append("User Name: "       + Environment.UserName        + "\n");
+            _info.Append("Platform:        " + os.Platform                 + "\n");
+            _info.Append("Version String:  " + os.VersionString            + "\n");
+            _info.Append("ServicePack:     " + os.ServicePack              + "\n");
+            _info.Append("User Name:       " + Environment.UserName        + "\n");
             _info.Append("SystemDirectory: " + Environment.SystemDirectory + "\n");
+            _info.Append("Local Ip:        " + GetLocalIp()                + "\n");
             _info.Append("Mac Address:     " + GetHwAddress()              + "\n");
             _HWid = ComputeHWid();
         }
@@ -40,6 +42,17 @@ namespace Syswinlog.Classes.HostInfo
                 hashValue.Append(b.ToString("x2"));
             }
             return hashValue;
+        }
+
+        public static string GetLocalIp()
+        {
+            var IpAddrList = Dns.GetHostEntry(Dns.GetHostName());
+            foreach( var addr in IpAddrList.AddressList ) {
+                if( addr.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork ) {
+                    return addr.ToString();
+                }
+            }
+            return string.Empty;
         }
 
         public static string GetHwAddress()
